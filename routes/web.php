@@ -8,6 +8,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KeywordController;
 use App\Http\Controllers\SiteMapController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\Backend\PagesController;
+use App\Http\Controllers\Backend\ContactController;
+use App\Http\Controllers\Backend\ContactListController;
 use Illuminate\Support\Facades\Route;
 
 //Home
@@ -42,3 +45,16 @@ Route::view('pages/about', 'frontend.pages.about')->name('page.about');
 Route::get('admin/login', [AuthController::class, 'showLoginForm'])->name('login-form');
 Route::post('admin/login', [AuthController::class, 'login'])->name('login');
 Route::get('admin/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+//static pages
+Route::get('admin/pages', [PagesController::class, 'index'])->name('admin/pages');
+Route::match(['get', 'post'],'admin/pages/add' ,  [PagesController::class, 'add'])->name('admin/pages/add');
+Route::match(['get', 'post'],'admin/edit-page/{id}' ,  [PagesController::class, 'update']);
+Route::get('admin/delete-page/{id}', [PagesController::class, 'delete']);
+
+//contact us page
+Route::match(['get', 'post'],'admin/contact', [ContactController::class, 'update'])->name('admin/contact');
+
+// get contact list of users from enquiry form
+Route::get('admin/contact-list', [ContactListController::class, 'index'])->name('admin/contact-list');
